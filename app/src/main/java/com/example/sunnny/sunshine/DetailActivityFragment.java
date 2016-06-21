@@ -75,7 +75,7 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Add this line in order for this fragment to handle menu events.
-       // setHasOptionsMenu(true);
+         setHasOptionsMenu(true);
     }
 
 
