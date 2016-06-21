@@ -3,6 +3,7 @@ package com.example.sunnny.sunshine;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -14,19 +15,35 @@ public class MainActivity extends AppCompatActivity{
     private static final int FORECAST_LOADER = 0;
     ForecastAdapter adapter;
     String mLocation;
+    boolean mTwoPane;
 
-    private final String FORECASTFRAGMENT_TAG = "FFTAG";
+    private static final String DETAILFRAGMENT_TAG = "DFTAG";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container,new ForecastFragment(), FORECASTFRAGMENT_TAG)
-                    .commit();
+        mLocation=Utility.getPreferredLocation(getApplicationContext());
+
+        if(findViewById(R.id.weather_detail_container)!=null) {
+            Log.v("Sunnny :: ","tablet working");
+            mTwoPane = true;
+            if (savedInstanceState == null) {
+
+                FragmentTransaction ft= getSupportFragmentManager().beginTransaction();
+                if(ft!=null)
+                {
+                    ft.replace(R.id.weather_detail_container, new DetailActivityFragment(), DETAILFRAGMENT_TAG)
+                            .commit();
+                }
+            }
         }
+        else
+        {
+            mTwoPane=false;
+        }
+
 
 
     }
@@ -59,7 +76,7 @@ public class MainActivity extends AppCompatActivity{
         String location = Utility.getPreferredLocation( this );
         // update the location in our second pane using the fragment manager
         if (location != null && !location.equals(mLocation)) {
-            ForecastFragment ff = (ForecastFragment)getSupportFragmentManager().findFragmentByTag(FORECASTFRAGMENT_TAG);
+            ForecastFragment ff = (ForecastFragment)getSupportFragmentManager().findFragmentById(R.id.fragment_forecast);
             if ( null != ff ) {
                 ff.onLocationChanged();
             }

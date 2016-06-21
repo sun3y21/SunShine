@@ -19,7 +19,7 @@ public class DetailActivity extends AppCompatActivity{
         if(savedInstanceState==null)
         {
            Fragment df=new DetailActivityFragment();
-           getSupportFragmentManager().beginTransaction().add(R.id.container1,df).commit();
+           getSupportFragmentManager().beginTransaction().add(R.id.weather_detail_container,df).commit();
         }
     }
 

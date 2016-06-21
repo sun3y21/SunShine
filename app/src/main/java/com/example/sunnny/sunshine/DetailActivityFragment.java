@@ -89,7 +89,6 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
                              Bundle savedInstanceState) {
         View root= inflater.inflate(R.layout.fragment_detail, container, false);
         getLoaderManager().initLoader(DETAIL_LOADER,savedInstanceState, this);
-
         mIconView = (ImageView)root.findViewById(R.id.detail_icon);
         mDateView = (TextView) root.findViewById(R.id.detail_date_textview);
         mFriendlyDateView = (TextView) root.findViewById(R.id.detail_day_textview);
@@ -105,7 +104,8 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Intent intent = getActivity().getIntent();
-        if (intent == null) {
+
+        if (intent == null||intent.getData()==null) {
             return null;
         }
 
