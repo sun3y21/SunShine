@@ -1,6 +1,5 @@
 package com.example.sunnny.sunshine;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,7 +22,10 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
 
 
     private static final int FORECAST_LOADER = 0;
-    ForecastAdapter adapter;
+    private final String SELECTED_POSITION="selected_position";
+
+    int mPosition=ListView.INVALID_POSITION;
+    ListView listView=null;
     //String mLocation;
 
     private static final String[] FORECAST_COLUMNS = {
@@ -70,18 +72,33 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         setHasOptionsMenu(true);
     }
 
+    public interface Callback
+    {
+        public void onItemSelected(Uri dateUri);
+    }
+
+    public ForecastAdapter getmForecastAdapter()
+    {
+        return mForecastAdapter;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             final Bundle savedInstanceState) {
         // The CursorAdapter will take data from our cursor and populate the ListView.
         mForecastAdapter = new ForecastAdapter(getActivity(), null, 0);
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
         // Get a reference to the ListView, and attach this adapter to it.
-        ListView listView = (ListView) rootView.findViewById(R.id.listview_forecast);
+        listView = (ListView) rootView.findViewById(R.id.listview_forecast);
         listView.setAdapter(mForecastAdapter);
+
+        if(savedInstanceState!=null&&savedInstanceState.containsKey(SELECTED_POSITION))
+        {
+            mPosition=savedInstanceState.getInt(SELECTED_POSITION);
+        }
+
 
         // We'll call our MainActivity
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -93,14 +110,13 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
                 Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
                 if (cursor != null) {
                     String locationSetting = Utility.getPreferredLocation(getActivity());
-                    Intent intent = new Intent(getActivity(), DetailActivity.class)
-                            .setData(WeatherContract.WeatherEntry.buildWeatherLocationWithDate(
-                                    locationSetting, cursor.getLong(COL_WEATHER_DATE)
-                            ));
-                    startActivity(intent);
+                     mPosition=cursor.getPosition();
+                    ((Callback)getActivity()).onItemSelected(WeatherContract.WeatherEntry.buildWeatherLocationWithDate(locationSetting,cursor.getLong(COL_WEATHER_DATE)));
+
                 }
             }
         });
+
         return rootView;
     }
 
@@ -123,6 +139,17 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
 
+
+    public void onSaveInstanceState(Bundle outState)
+    {
+         if(mPosition!=ListView.INVALID_POSITION)
+         {
+             outState.putInt(SELECTED_POSITION,mPosition);
+
+         }
+        super.onSaveInstanceState(outState);
+    }
+
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         String locationSetting = Utility.getPreferredLocation(getActivity());
@@ -143,7 +170,10 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public void onLoadFinished(android.support.v4.content.Loader<Cursor> loader, Cursor data) {
         mForecastAdapter.swapCursor(data);
-
+        if(mPosition!=ListView.INVALID_POSITION)
+        {
+            listView.smoothScrollToPosition(mPosition);
+        }
     }
 
     @Override

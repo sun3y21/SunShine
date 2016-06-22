@@ -4,7 +4,8 @@
     android:name="com.example.sunnny.sunshine.ForecastFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
+    android:layout_marginLeft="3dp"
+    android:layout_marginRight="3dp"
     tools:context="com.example.sunnny.sunshine.MainActivity"
+
     tools:layout="@android:layout/list_content" />
