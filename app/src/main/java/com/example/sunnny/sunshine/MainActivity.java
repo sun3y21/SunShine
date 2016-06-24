@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.sunnny.sunshine.SunshineService.SunShineService;
+
 
 public class MainActivity extends AppCompatActivity implements ForecastFragment.Callback{
 
@@ -128,9 +130,10 @@ public class MainActivity extends AppCompatActivity implements ForecastFragment.
     }
 
     private void updateWeather() {
-        FetchWeatherTask weatherTask = new FetchWeatherTask(getApplicationContext());
-        String location = Utility.getPreferredLocation(getApplicationContext());
-        weatherTask.execute(location);
+        Intent intent = new Intent(getApplicationContext(), SunShineService.class);
+        intent.putExtra(SunShineService.LOCATION_QUERY_EXTRA,
+                Utility.getPreferredLocation(getApplicationContext()));
+         startService(intent);
     }
 
     @Override

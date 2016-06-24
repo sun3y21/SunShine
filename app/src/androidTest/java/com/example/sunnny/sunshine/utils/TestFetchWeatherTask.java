@@ -19,7 +19,6 @@ import android.annotation.TargetApi;
 import android.database.Cursor;
 import android.test.AndroidTestCase;
 
-import com.example.sunnny.sunshine.FetchWeatherTask;
 import com.example.sunnny.sunshine.data.WeatherContract;
 
 public class TestFetchWeatherTask extends AndroidTestCase{

@@ -1,5 +1,9 @@
 package com.example.sunnny.sunshine;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.example.sunnny.sunshine.SunshineService.SunShineService;
 import com.example.sunnny.sunshine.data.WeatherContract;
 
 /**
@@ -133,9 +138,11 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
     private void updateWeather() {
-        FetchWeatherTask weatherTask = new FetchWeatherTask(getActivity());
-        String location = Utility.getPreferredLocation(getActivity());
-        weatherTask.execute(location);
+        Intent alarmIntent=new Intent(getContext(), SunShineService.class);
+        alarmIntent.putExtra(SunShineService.LOCATION_QUERY_EXTRA,Utility.getPreferredLocation(getContext()));
+        PendingIntent pendingIntent=PendingIntent.getBroadcast(getContext(),0,alarmIntent,PendingIntent.FLAG_ONE_SHOT);
+        AlarmManager am=(AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
+        am.set(AlarmManager.RTC_WAKEUP,System.currentTimeMillis()+5000,pendingIntent);
     }
 
 
