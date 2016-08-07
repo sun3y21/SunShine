@@ -14,8 +14,6 @@ import com.example.sunnny.sunshine.SunshineService.SunShineService;
 
 public class MainActivity extends AppCompatActivity implements ForecastFragment.Callback{
 
-    private static final int FORECAST_LOADER = 0;
-    ForecastAdapter adapter;
     String mLocation;
     boolean mTwoPane;
 
@@ -28,7 +26,8 @@ public class MainActivity extends AppCompatActivity implements ForecastFragment.
         setContentView(R.layout.activity_main);
         mLocation=Utility.getPreferredLocation(getApplicationContext());
 
-        if(findViewById(R.id.weather_detail_container)!=null) {
+        if(findViewById(R.id.weather_detail_container)!=null)
+        {
             mTwoPane = true;
             if (savedInstanceState == null) {
 
@@ -84,11 +83,13 @@ public class MainActivity extends AppCompatActivity implements ForecastFragment.
             if (location != null && !location.equals(mLocation)) {
                 ff = (ForecastFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_forecast);
             }
-            if ( null != ff ) {
+            if ( null != ff )
+            {
                 ff.onLocationChanged();
             }
             DetailActivityFragment df = (DetailActivityFragment)getSupportFragmentManager().findFragmentByTag(DETAILFRAGMENT_TAG);
-            if ( null != df ) {
+            if ( null != df )
+            {
                 df.onLocationChanged(location);
             }
             mLocation = location;
@@ -140,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements ForecastFragment.
     public void onItemSelected(Uri dateUri) {
         if(mTwoPane)
         {
-           Bundle b=new Bundle();
+            Bundle b=new Bundle();
             b.putParcelable(DetailActivityFragment.DETAIL_URI,dateUri);
             DetailActivityFragment df=new DetailActivityFragment();
             df.setArguments(b);
@@ -152,4 +153,6 @@ public class MainActivity extends AppCompatActivity implements ForecastFragment.
             startActivity(i);
         }
     }
+
+
 }

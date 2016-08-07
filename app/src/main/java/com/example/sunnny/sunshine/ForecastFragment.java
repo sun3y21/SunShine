@@ -5,17 +5,20 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.sunnny.sunshine.SunshineService.SunShineService;
 import com.example.sunnny.sunshine.data.WeatherContract;
@@ -97,12 +100,15 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
 
         // Get a reference to the ListView, and attach this adapter to it.
         listView = (ListView) rootView.findViewById(R.id.listview_forecast);
+
         listView.setAdapter(mForecastAdapter);
 
         if(savedInstanceState!=null&&savedInstanceState.containsKey(SELECTED_POSITION))
         {
             mPosition=savedInstanceState.getInt(SELECTED_POSITION);
         }
+
+        listView.setEmptyView(rootView.findViewById(R.id.emptyView));
 
 
         // We'll call our MainActivity
@@ -176,6 +182,24 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
 
     @Override
     public void onLoadFinished(android.support.v4.content.Loader<Cursor> loader, Cursor data) {
+        if(data==null||data.getCount()==0)
+        {
+            ConnectivityManager connectivityManager=(ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+            if(connectivityManager.getActiveNetworkInfo()!=null&&connectivityManager.getActiveNetworkInfo().isAvailable()&&connectivityManager.getActiveNetworkInfo().isConnected())
+            {
+                Log.v("Output:","Yehh connected");
+            }
+            else
+            {
+                TextView t=(TextView)getView().findViewById(R.id.emptyViewtext);
+                listView.setEmptyView(getView().findViewById(R.id.emptyView));
+                t.setText("No internet connection...");
+            }
+        }
+        else
+        {
+            Log.v("Output:","data is not null"+data.getCount());
+        }
         mForecastAdapter.swapCursor(data);
         if(mPosition!=ListView.INVALID_POSITION)
         {

@@ -15,10 +15,10 @@ public class DetailActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         if(savedInstanceState==null)
         {
-           Fragment df=new DetailActivityFragment();
+            Fragment df=new DetailActivityFragment();
             Bundle arguments=new Bundle();
             arguments.putParcelable(DetailActivityFragment.DETAIL_URI,getIntent().getData());
             df.setArguments(arguments);

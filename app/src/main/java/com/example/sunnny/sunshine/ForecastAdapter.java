@@ -158,6 +158,6 @@ public class ForecastAdapter extends CursorAdapter{
         // TODO Read low temperature from cursor
         double low=cursor.getDouble(ForecastFragment.COL_WEATHER_MIN_TEMP);
         viewHolder.lowTempView.setText("Min : "+Utility.formatTemperature(mContext,low,isMetric));
-
     }
+
 }
