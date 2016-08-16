@@ -139,7 +139,7 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
             int weatherId = data.getInt(COL_WEATHER_CONDITION_ID);
             // Use placeholder Image
             mIconView.setImageResource(Utility.getArtResourceForWeatherCondition(weatherId));
-
+            mIconView.setContentDescription(Utility.getStringForWeatherCondition(getContext(),weatherId));
             // Read date from cursor and update views for day of week and date
             long date = data.getLong(COL_WEATHER_DATE);
             String friendlyDateText = Utility.getDayName(getContext(), date);
@@ -160,7 +160,7 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
             mHighTempView.setText("Max : " + highString);
 
             // Read low temperature from cursor and update view
-            double low = data.getDouble(COL_WEATHER_MIN_TEMP);
+            double low = data.getDouble(COL_WEATHER_MIN_TEMP); 
             String lowString = Utility.formatTemperature(getContext(), low, isMetric);
             mLowTempView.setText("Min : " + lowString);
 

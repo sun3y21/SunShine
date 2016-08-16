@@ -3,6 +3,7 @@ package com.example.sunnny.sunshine;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.IntDef;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -10,6 +11,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.sunnny.sunshine.SunshineService.SunShineService;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 
 public class MainActivity extends AppCompatActivity implements ForecastFragment.Callback{
@@ -19,6 +23,15 @@ public class MainActivity extends AppCompatActivity implements ForecastFragment.
 
     private static final String DETAILFRAGMENT_TAG = "DFTAG";
 
+
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef({LOCATION_STATUS_OK,LOCATION_STATUS_SERVER_DOWN,LOCATION_STATUS_SERVER_INVALID,LOCATION_STATUS_UNKNOWN})
+    public @interface LocationStatus{}
+
+    public final static int LOCATION_STATUS_OK=0;
+    public final static int LOCATION_STATUS_SERVER_DOWN=1;
+    public final static int LOCATION_STATUS_SERVER_INVALID=2;
+    public final static int LOCATION_STATUS_UNKNOWN=3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
