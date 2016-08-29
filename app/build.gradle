@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.sunnny.sunshine"
-        minSdkVersion 15
+        minSdkVersion 21
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -19,7 +19,7 @@ android {
 
     }
     buildTypes.each {
-        it.buildConfigField 'String', 'OPEN_WEATHER_MAP_API_KEY', "\"bb4d1bc119f5babcb1f0e57da4d5643c\""
+        it.buildConfigField 'String', 'OPEN_WEATHER_MAP_API_KEY', "\"key\""
     }
 
 }

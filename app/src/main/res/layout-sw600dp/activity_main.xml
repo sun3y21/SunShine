@@ -23,5 +23,12 @@
         tools:context="com.example.sunnny.sunshine.DetailActivity"
         tools:ignore="MergeRootFrame" />
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:background="@color/colorPrimary"
+        />
 
 </LinearLayout>

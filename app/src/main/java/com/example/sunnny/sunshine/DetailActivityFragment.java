@@ -160,7 +160,7 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
             mHighTempView.setText("Max : " + highString);
 
             // Read low temperature from cursor and update view
-            double low = data.getDouble(COL_WEATHER_MIN_TEMP); 
+            double low = data.getDouble(COL_WEATHER_MIN_TEMP);
             String lowString = Utility.formatTemperature(getContext(), low, isMetric);
             mLowTempView.setText("Min : " + lowString);
 
